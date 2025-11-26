@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entre Alunos - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{
+      font-family: Inter, sans-serif;
+      background: linear-gradient(180deg,#0b1220,#071021);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box{
+      background: #1e293b;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+    }
+    .login-box h1{
+      color: #fff;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align:center;
+    }
+    .login-box input, .login-box select{
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+    }
+    .login-box button{
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      background-color: #0ea5e9;
+      color: white;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .login-box button:hover{
+      background-color: #0284c7;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h1>Entre Alunos</h1>
+    <form id="formLogin">
+      <input type="text" id="nomeUsuario" placeholder="Digite seu nome" required>
+      <select id="tipoUsuario" required>
+        <option value="" disabled selected>Selecione o tipo</option>
+        <option value="aluno">Aluno</option>
+        <option value="gestor">Gestor</option>
+      </select>
+      <input type="password" id="senhaGestor" placeholder="Senha do Gestor" style="display:none;">
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
+
+  <script>
+    const tipoUsuario = document.getElementById('tipoUsuario');
+    const senhaGestor = document.getElementById('senhaGestor');
+    tipoUsuario.addEventListener('change', ()=>{
+      if(tipoUsuario.value==='gestor'){
+        senhaGestor.style.display='block';
+      } else {
+        senhaGestor.style.display='none';
+      }
+    });
+
+    document.getElementById('formLogin').addEventListener('submit', e=>{
+      e.preventDefault();
+      const nome = document.getElementById('nomeUsuario').value.trim();
+      const tipo = tipoUsuario.value;
+      const senha = senhaGestor.value;
+
+      if(!nome || !tipo){
+        alert('Preencha todos os campos.');
+        return;
+      }
+
+      if(tipo==='gestor'){
+        if(senha!=='1234'){ // senha padrão, pode alterar
+          alert('Senha do gestor incorreta!');
+          return;
+        }
+      }
+
+      // salva role no localStorage
+      localStorage.setItem('role', tipo);
+      localStorage.setItem('nomeUsuario', nome);
+
+      // redireciona para o portal
+      window.location.href='index.html';
+    });
+  </script>
+</body>
+</html>
